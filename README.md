@@ -11,28 +11,101 @@
 ![Templates](https://img.shields.io/badge/4-Templates-4A9BD9?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Active-00B894?style=for-the-badge)
 
-**Extraction meets flow. 4 tiers, one interface.**
-**The lightest tool that works. Auto-escalates when it doesn't.**
+**A Swiss Army knife for web extraction.**
+**One command. Structured JSON. Any page on the internet.**
 
 ---
 
 ## Why This Exists
 
-Three problems, one toolkit.
+### The Playwright Problem
 
-**Firecrawl is dead.** No credits, monthly plan inactive. Every call fails. It's been disabled.
+Playwright is powerful. But when you use it through an AI agent, it's also wasteful.
 
-**Playwright MCP burns tokens.** Interactive browser sessions cost 2,000-30,000 tokens per page. Navigate, wait, screenshot, read DOM, extract — each step is a round-trip. For a simple product page, that's $0.10-0.50 in tokens for data you could get with a 200-token HTTP request.
+Every extraction becomes a conversation. Navigate to the page. Wait for it to load. Take a screenshot. Read the DOM. Find the selectors. Extract the data. Handle the error. Try again. Each step is a tool call. Each tool call costs tokens. A single product page can burn **2,000-30,000 tokens** — that's $0.10-0.50 per page just to read some text that a simple HTTP request could have grabbed in 200 tokens.
 
-**SeleniumBase is heavy for simple pages.** UC Mode launches a full stealth browser with anti-detection. Powerful — but overkill for a blog post or a public product listing. 30-60 seconds where 2-5 seconds would do.
+Multiply that across a project. Ten pages. Fifty pages. A batch of competitor listings. The token cost adds up fast, and the session takes minutes instead of seconds.
 
-ExtractFlow solves this with a **cascade**: always start with the lightest tool. If it fails, flow down to the next tier. No manual routing. No token waste. No overkill.
+### The Subscription Problem
+
+Services like Firecrawl solve part of this — but they come with monthly subscriptions, credit limits, and API rate caps. When your credits run out, every call fails silently. You're paying for something that works until it doesn't, with no fallback.
+
+### The Overkill Problem
+
+SeleniumBase UC Mode is the nuclear option — stealth browser, anti-detection, persistent profiles. It can get past almost anything. But launching a full stealth browser for a blog post or a public product listing is like driving a tank to the corner shop. 30-60 seconds where 2-5 would do.
+
+### The Solution: A Cascade
+
+ExtractFlow replaces all of this with a single principle: **use the lightest tool that works.**
+
+Every extraction starts with a fast HTTP request. If that fails, it escalates to a headless browser. If that gets blocked, it moves to a stealth browser. If the page needs authentication, it connects to your live browser session. No manual routing. No subscriptions. No token waste. No overkill.
+
+One command in, structured JSON out. Works on any URL — blogs, dashboards, SPAs, e-commerce, government portals, localhost dev servers. The script picks the right approach. You just pass the URL.
 
 ---
 
-## How It Works
+## How It's Different: Agentic Extraction
 
-Four tiers. Each one heavier, slower, and more capable than the last. The system picks the lightest tier that succeeds.
+Standard browser automation tools — Playwright, Puppeteer, Selenium — are **interactive**. You write a script (or an AI writes one for you) that drives a browser step by step: go here, click that, wait, read this element, screenshot, parse. Every action is a separate instruction.
+
+ExtractFlow is **agentic**. You give it a URL and tell it what you want. It figures out the rest.
+
+```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'nodeTextColor': '#e8e8e8', 'primaryTextColor': '#e8e8e8', 'secondaryTextColor': '#cccccc', 'tertiaryTextColor': '#cccccc', 'clusterBkg': 'transparent', 'clusterBorder': '#8b949e'}}}%%
+
+flowchart TD
+    subgraph STANDARD[" STANDARD AUTOMATION "]
+        direction LR
+        S1["Navigate"] --> S2["Wait"]
+        S2 --> S3["Screenshot"]
+        S3 --> S4["Read DOM"]
+        S4 --> S5["Extract"]
+        S5 --> S6["Handle Error"]
+        S6 --> S7["Retry"]
+    end
+
+    subgraph AGENTIC[" EXTRACTFLOW "]
+        direction LR
+        A1["URL in"] --> A2["JSON out"]
+    end
+
+    style S1 fill:none,stroke-width:1px,color:#e8e8e8
+    style S2 fill:none,stroke-width:1px,color:#e8e8e8
+    style S3 fill:none,stroke-width:1px,color:#e8e8e8
+    style S4 fill:none,stroke-width:1px,color:#e8e8e8
+    style S5 fill:none,stroke-width:1px,color:#e8e8e8
+    style S6 fill:none,stroke-width:1px,color:#e8e8e8
+    style S7 fill:none,stroke-width:1px,color:#e8e8e8
+    style A1 fill:none,stroke-width:1px,color:#e8e8e8
+    style A2 fill:none,stroke-width:1px,color:#e8e8e8
+    style STANDARD fill:none,stroke-width:1px,color:#e8e8e8
+    style AGENTIC fill:none,stroke-width:1px,color:#e8e8e8
+```
+
+**What happens inside that arrow:**
+
+1. **Auto-selects the right tier** — HTTP for simple pages, headless browser for SPAs, stealth browser for anti-bot sites, live browser for authenticated pages
+2. **Handles failures automatically** — blocked at one tier? The script signals which tier to try next
+3. **Dismisses cookie banners** — OneTrust, CookieBot, generic consent dialogs
+4. **Auto-scrolls lazy content** — infinite scroll pages, deferred images
+5. **Detects login redirects** — returns `session_expired` instead of garbage HTML
+6. **Truncates to 50KB** — prevents context window overflow in AI agents
+7. **Returns structured JSON** — title, content, links, tables, metadata. Ready for the next step in your pipeline
+
+The difference for an AI agent is dramatic. Instead of 5-15 tool calls per page (navigate, wait, screenshot, read, extract, handle error), it's **one call**. Instead of 2,000-30,000 tokens, it's **200-500 tokens**. Instead of back-and-forth conversation, it's **fire and forget**.
+
+| | Standard Playwright | ExtractFlow |
+|---|---|---|
+| Tool calls per page | 5-15 | 1 |
+| Tokens per page | 2,000-30,000 | 200-500 |
+| Cost per page (Opus) | $0.10-0.50 | ~$0.01 |
+| Monthly subscription | Firecrawl: $19-99/mo | $0 |
+| Anti-bot bypass | Manual scripting | Auto-escalation |
+| Auth page access | Build a login flow | Connect to your browser |
+
+---
+
+## The Four Tiers
 
 ```mermaid
 %%{init: {'theme': 'dark', 'themeVariables': {'nodeTextColor': '#e8e8e8', 'primaryTextColor': '#e8e8e8', 'secondaryTextColor': '#cccccc', 'tertiaryTextColor': '#cccccc', 'clusterBkg': 'transparent', 'clusterBorder': '#8b949e'}}}%%
@@ -57,9 +130,15 @@ flowchart LR
     style CASCADE fill:none,stroke-width:1px,color:#e8e8e8
 ```
 
-### Routing Decision Tree
+| Tier | Script | What It Does | Speed | When To Use |
+|------|--------|-------------|-------|-------------|
+| **T1** | `scrape.py` | Pure HTTP with Cloudflare IUAM bypass. No browser. | 2-5s | Blog posts, news articles, public APIs, documentation, any server-rendered page |
+| **T2** | `extract.js` | Headless Chromium via Playwright. Full JS rendering. | 10-15s | SPAs, React/Vue/Angular apps, JS-heavy pages, lazy-loaded content, localhost |
+| **T2** | `batch-extract.js` | Same as above, but concurrent. Multiple URLs at once. | 10-15s | Competitor analysis, price monitoring, bulk content extraction |
+| **Auth** | `dev-extract.js` | Connects to your running browser via CDP. Your sessions, your cookies. | 5-10s | Seller Central, WordPress admin, Xero, Google Sheets, any logged-in dashboard |
+| **T3** | SeleniumBase templates | Stealth browser with UC Mode anti-detection. | 30-60s | Amazon, Airbnb, banking portals, sites with DataDome/PerimeterX/Cloudflare Bot Management |
 
-Not sure which tier? Follow the tree.
+### Routing Decision Tree
 
 ```mermaid
 %%{init: {'theme': 'dark', 'themeVariables': {'nodeTextColor': '#e8e8e8', 'primaryTextColor': '#e8e8e8', 'secondaryTextColor': '#cccccc', 'tertiaryTextColor': '#cccccc', 'clusterBkg': 'transparent', 'clusterBorder': '#8b949e'}}}%%
@@ -89,22 +168,97 @@ flowchart TD
     style T3 fill:none,stroke-width:1px,color:#e8e8e8
 ```
 
-### Quick Reference
+---
 
-| Task | Script | Tier | Speed |
-|------|--------|------|-------|
-| Public page content | `scrape.py` | T1 | ~2-5s |
-| Cloudflare-protected page | `scrape.py` | T1 | ~2-5s |
-| Structured tables | `scrape.py` | T1 | ~2-5s |
-| SPA / JS-rendered page | `extract.js` | T2 | ~10-15s |
-| Custom DOM + JS execution | `extract.js` | T2 | ~10-15s |
-| localhost / file:// URLs | `extract.js` | T2 | ~10-15s |
-| Batch scrape (3+ URLs) | `batch-extract.js` | T2 | ~10-15s |
-| **Seller Central data** | **`dev-extract.js`** | **Auth** | **~5-10s** |
-| **Any logged-in dashboard** | **`dev-extract.js`** | **Auth** | **~5-10s** |
-| **Google Sheets interaction** | **`dev-extract.js`** | **Auth** | **~5-10s** |
-| Amazon product pages | SeleniumBase template | T3 | ~30-60s |
-| Anti-bot / login persist | SeleniumBase template | T3 | ~30-60s |
+## Real-World Examples
+
+ExtractFlow handles anything with a URL. Here's what it looks like across different domains.
+
+### E-Commerce: Amazon Product Data
+
+Amazon blocks HTTP scraping with CAPTCHA — T1 fails, T2 handles it.
+
+```bash
+node scripts/extract.js --url "https://www.amazon.co.uk/dp/B0BZHMMVLG" --scroll
+```
+
+Returns: title, price, features, BSR, browse node path, GL (product group). All in one JSON response.
+
+### SaaS Dashboards: Seller Central, Xero, Google Sheets
+
+Connect to your live browser. Extract from any page you're logged into.
+
+```bash
+bash scripts/launch-cdp.sh                    # Launch browser with CDP
+node scripts/dev-extract.js --connect --url https://sellercentral.amazon.co.uk
+node scripts/dev-extract.js --connect --url https://go.xero.com/Dashboard
+node scripts/dev-extract.js --connect --url https://docs.google.com/spreadsheets/d/...
+```
+
+No login flows. No cookie management. No credential storage. It uses the sessions already in your browser.
+
+### CMS Platforms: WordPress Admin
+
+```bash
+node scripts/dev-extract.js --connect --url https://sellersessions.com/wp-admin/
+```
+
+If your session has expired, ExtractFlow detects the login redirect and returns `{"error": "session_expired"}` instead of garbage HTML. Log in manually, retry.
+
+### Travel & Hospitality: Airbnb
+
+Public listings need stealth (T3). But your own account settings? Auth tier handles it in 5 seconds.
+
+```bash
+# Your account data (Auth tier — instant)
+node scripts/dev-extract.js --connect --url https://www.airbnb.com/account-settings
+
+# Public listing (T3 — stealth needed)
+python templates/scrape_page.py  # Customise for the listing URL
+```
+
+### Content & Research: Blogs, News, Documentation
+
+Most content sites are simple — T1 grabs them in 2-5 seconds with no browser at all.
+
+```bash
+python scripts/scrape.py --url https://techcrunch.com/some-article
+python scripts/scrape.py --url https://docs.python.org/3/library/json.html
+python scripts/scrape.py --url https://en.wikipedia.org/wiki/Web_scraping
+```
+
+### Batch Jobs: Competitor Monitoring, Price Tracking
+
+Extract from dozens of URLs concurrently.
+
+```bash
+# From a list
+node scripts/batch-extract.js --urls "https://site1.com,https://site2.com,https://site3.com"
+
+# From a file (one URL per line)
+node scripts/batch-extract.js --file competitor-urls.txt --concurrency 5 --delay 2000
+```
+
+Output is JSONL — one JSON object per line, pipe it to `jq` or feed it into your next workflow.
+
+### Local Development: Localhost & file:// URLs
+
+Testing a local webapp? T2 handles localhost and file:// URLs.
+
+```bash
+node scripts/extract.js --url http://localhost:3000
+node scripts/extract.js --url file:///Users/you/project/index.html
+```
+
+### Government & Legal Portals
+
+Behind login + anti-bot? SeleniumBase with a persistent profile.
+
+```bash
+cp templates/auth_flow.py scripts/generated/court_portal.py
+# Edit credentials and URL in the CUSTOMISE section
+python scripts/generated/court_portal.py
+```
 
 ---
 
@@ -129,66 +283,18 @@ npm install -g dev-browser
 dev-browser install
 ```
 
-### Tier 1 — HTTP Extraction
-
-Fast. No browser. Handles Cloudflare IUAM challenges via cloudscraper25.
+### Your First Extraction
 
 ```bash
-# Basic extraction
+# Simplest possible extraction — T1, pure HTTP, ~2 seconds
 python scripts/scrape.py --url https://example.com
 
-# With CSS selectors
-python scripts/scrape.py --url https://example.com --selectors '{"prices": ".price"}'
-
-# Exclude elements
-python scripts/scrape.py --url https://example.com --exclude "nav,footer"
-```
-
-### Tier 2 — Playwright Headless
-
-Full browser. JS rendering. Cookie consent auto-dismiss. Lazy-load scroll.
-
-```bash
-# Single page
-node scripts/extract.js --url https://example.com
-
-# Wait for specific element
-node scripts/extract.js --url https://example.com --wait-for ".content"
-
-# Scroll for lazy-loaded content
+# A JS-heavy page — T2, headless browser, ~10 seconds
 node scripts/extract.js --url https://example.com --scroll
 
-# Batch — multiple URLs
-node scripts/batch-extract.js --urls "https://a.com,https://b.com,https://c.com"
-node scripts/batch-extract.js --file urls.txt --concurrency 5 --delay 2000
-```
-
-### Auth Tier — Live Browser via CDP
-
-Connects to your running browser. Has all your cookies, sessions, login state.
-
-```bash
-# Launch browser with CDP (first time)
-bash scripts/launch-cdp.sh          # Comet
-bash scripts/launch-cdp.sh chrome   # Chrome
-bash scripts/launch-cdp.sh check    # Verify CDP is running
-
-# Extract from authenticated page
-node scripts/dev-extract.js --connect --url https://sellercentral.amazon.co.uk
-
-# With custom selectors
-node scripts/dev-extract.js --connect --url https://example.com --selectors '{"data": ".target"}'
-```
-
-### Tier 3 — SeleniumBase (Anti-Bot)
-
-UC Mode stealth browser. For sites that block everything else.
-
-```bash
-# Copy and customise a template
-cp templates/scrape_page.py scripts/generated/my_scrape.py
-# Edit the === CUSTOMISE THESE === section
-python scripts/generated/my_scrape.py
+# An authenticated page — Auth tier, your live browser
+bash scripts/launch-cdp.sh
+node scripts/dev-extract.js --connect --url https://your-dashboard.com
 ```
 
 ### Escalation Waterfall
@@ -293,35 +399,13 @@ The `fallback` field tells you which tier to try next if this one failed.
 
 ---
 
-## Results & Edge Cases
+## Known Limitations
 
-### Token Savings
-
-| Method | Tokens per page | Cost (Opus) |
-|--------|----------------|-------------|
-| Playwright MCP interactive | 2,000-30,000 | $0.10-0.50 |
-| **ExtractFlow T1 (HTTP)** | **~200-500** | **~$0.01** |
-| **ExtractFlow T2 (headless)** | **~200-500** | **~$0.01** |
-| **ExtractFlow Auth (CDP)** | **~200-500** | **~$0.01** |
-
-Scripts return structured JSON. Claude reads JSON. No screenshots, no DOM inspection, no back-and-forth.
-
-### Real-World Tests
-
-| Target | Tier | Result |
-|--------|------|--------|
-| Amazon PDP (.co.uk) | T1 fails → T2 | Title, price, features, BSR, browse nodes, GL |
-| Airbnb account settings | Auth | Full profile, nav links, account details |
-| WordPress wp-admin | Auth | Login redirect detected, `session_expired` signal |
-| Example.com | T1 | Clean extraction in ~2s |
-
-### Known Limitations
-
-- **Amazon product pages** return CAPTCHA at T1 (expected — anti-bot). T2 works for public pages.
-- **Item Type Keyword** and **Product Type** are SP-API only — not in page source at any tier.
-- **Auth tier** requires browser relaunch with CDP flag (`launch-cdp.sh`). Sessions expire independently.
-- **SeleniumBase T3** runs headed by default (set `SB_HEADLESS=true` for background).
-- **50KB output cap** on all scripts to prevent context window overflow.
+- **Anti-bot sites** (Amazon, Airbnb public listings, banking) block T1 and sometimes T2. That's what T3 is for.
+- **Auth tier needs CDP** — your browser must be relaunched with `launch-cdp.sh`. Sessions expire independently.
+- **50KB output cap** on all scripts to prevent context window overflow in AI agents.
+- **SeleniumBase T3** runs headed by default. Set `SB_HEADLESS=true` for background runs.
+- **Not a crawler.** ExtractFlow extracts data from URLs you give it. It doesn't discover or follow links automatically.
 
 ---
 
