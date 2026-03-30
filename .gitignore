@@ -1,0 +1,10 @@
+node_modules/
+.venv/
+results/*.json
+results/*.jsonl
+!results/.gitkeep
+.env
+.DS_Store
+*.pyc
+__pycache__/
+~/.claude/browser-profiles/

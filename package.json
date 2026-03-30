@@ -1,0 +1,22 @@
+{
+  "name": "extract-flow",
+  "version": "1.0.0",
+  "description": "Extraction meets flow. 4 tiers, one interface.",
+  "private": true,
+  "scripts": {
+    "scrape": "node scripts/extract.js",
+    "batch": "node scripts/batch-extract.js",
+    "auth": "node scripts/dev-extract.js",
+    "cdp:check": "bash scripts/launch-cdp.sh check",
+    "cdp:launch": "bash scripts/launch-cdp.sh",
+    "postinstall": "npx playwright install chromium"
+  },
+  "dependencies": {
+    "playwright": "^1.50.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "author": "Danny McMillan",
+  "license": "UNLICENSED"
+}
