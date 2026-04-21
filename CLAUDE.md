@@ -11,7 +11,7 @@
 
 ## File Layout
 
-- `scripts/` — The 6 extraction scripts (T1, T2, Auth, utilities)
+- `scripts/` — The 7 extraction scripts (T1, T2, Auth, Interactive, utilities)
 - `templates/` — SeleniumBase T3 templates (copy, customise, run)
 - `examples/` — Walkthrough docs for common extraction tasks
 - `docs/` — Numbered deep-dive documentation
@@ -22,4 +22,5 @@
 - T1 (scrape.py): Python 3.10+ with cloudscraper25 + BeautifulSoup4
 - T2 (extract.js, batch-extract.js): Node 18+ with Playwright + Chromium
 - Auth (dev-extract.js): Node 18+ with dev-browser CLI (global install)
+- Interactive (inspect.js): Node 18+ with Playwright + Chromium (CDP on port 9333)
 - T3 (templates): Python 3.10+ with SeleniumBase

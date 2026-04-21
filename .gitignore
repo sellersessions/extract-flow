@@ -3,6 +3,7 @@ node_modules/
 results/*.json
 results/*.jsonl
 !results/.gitkeep
+_captures/
 .env
 .DS_Store
 *.pyc
