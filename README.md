@@ -22,17 +22,17 @@
 
 Playwright is powerful. But when you use it through an AI agent, it's also wasteful.
 
-Every extraction becomes a conversation. Navigate to the page. Wait for it to load. Take a screenshot. Read the DOM. Find the selectors. Extract the data. Handle the error. Try again. Each step is a tool call. Each tool call costs tokens. A single product page can burn **2,000-30,000 tokens** — that's $0.10-0.50 per page just to read some text that a simple HTTP request could have grabbed in 200 tokens.
+Every extraction becomes a conversation. Navigate to the page. Wait for it to load. Take a screenshot. Read the DOM. Find the selectors. Extract the data. Handle the error. Try again. Each step is a tool call. Each tool call costs tokens. A single product page can burn **2,000-30,000 tokens** - that's $0.10-0.50 per page just to read some text that a simple HTTP request could have grabbed in 200 tokens.
 
 Multiply that across a project. Ten pages. Fifty pages. A batch of competitor listings. The token cost adds up fast, and the session takes minutes instead of seconds.
 
 ### The Subscription Problem
 
-Services like Firecrawl solve part of this — but they come with monthly subscriptions, credit limits, and API rate caps. When your credits run out, every call fails silently. You're paying for something that works until it doesn't, with no fallback.
+Services like Firecrawl solve part of this - but they come with monthly subscriptions, credit limits, and API rate caps. When your credits run out, every call fails silently. You're paying for something that works until it doesn't, with no fallback.
 
 ### The Overkill Problem
 
-SeleniumBase UC Mode is the nuclear option — stealth browser, anti-detection, persistent profiles. It can get past almost anything. But launching a full stealth browser for a blog post or a public product listing is like driving a tank to the corner shop. 30-60 seconds where 2-5 would do.
+SeleniumBase UC Mode is the nuclear option - stealth browser, anti-detection, persistent profiles. It can get past almost anything. But launching a full stealth browser for a blog post or a public product listing is like driving a tank to the corner shop. 30-60 seconds where 2-5 would do.
 
 ### The Solution: A Cascade
 
@@ -40,13 +40,13 @@ ExtractFlow replaces all of this with a single principle: **use the lightest too
 
 Every extraction starts with a fast HTTP request. If that fails, it escalates to a headless browser. If that gets blocked, it moves to a stealth browser. If the page needs authentication, it connects to your live browser session. No manual routing. No subscriptions. No token waste. No overkill.
 
-One command in, structured JSON out. Works on any URL — blogs, dashboards, SPAs, e-commerce, government portals, localhost dev servers. The script picks the right approach. You just pass the URL.
+One command in, structured JSON out. Works on any URL - blogs, dashboards, SPAs, e-commerce, government portals, localhost dev servers. The script picks the right approach. You just pass the URL.
 
 ---
 
 ## How It's Different: Agentic Extraction
 
-Standard browser automation tools — Playwright, Puppeteer, Selenium — are **interactive**. You write a script (or an AI writes one for you) that drives a browser step by step: go here, click that, wait, read this element, screenshot, parse. Every action is a separate instruction.
+Standard browser automation tools - Playwright, Puppeteer, Selenium - are **interactive**. You write a script (or an AI writes one for you) that drives a browser step by step: go here, click that, wait, read this element, screenshot, parse. Every action is a separate instruction.
 
 ExtractFlow is **agentic**. You give it a URL and tell it what you want. It figures out the rest.
 
@@ -84,13 +84,13 @@ flowchart TD
 
 **What happens inside that arrow:**
 
-1. **Auto-selects the right tier** — HTTP for simple pages, headless browser for SPAs, stealth browser for anti-bot sites, live browser for authenticated pages
-2. **Handles failures automatically** — blocked at one tier? The script signals which tier to try next
-3. **Dismisses cookie banners** — OneTrust, CookieBot, generic consent dialogs
-4. **Auto-scrolls lazy content** — infinite scroll pages, deferred images
-5. **Detects login redirects** — returns `session_expired` instead of garbage HTML
-6. **Truncates to 50KB** — prevents context window overflow in AI agents
-7. **Returns structured JSON** — title, content, links, tables, metadata. Ready for the next step in your pipeline
+1. **Auto-selects the right tier** - HTTP for simple pages, headless browser for SPAs, stealth browser for anti-bot sites, live browser for authenticated pages
+2. **Handles failures automatically** - blocked at one tier? The script signals which tier to try next
+3. **Dismisses cookie banners** - OneTrust, CookieBot, generic consent dialogs
+4. **Auto-scrolls lazy content** - infinite scroll pages, deferred images
+5. **Detects login redirects** - returns `session_expired` instead of garbage HTML
+6. **Truncates to 50KB** - prevents context window overflow in AI agents
+7. **Returns structured JSON** - title, content, links, tables, metadata. Ready for the next step in your pipeline
 
 The difference for an AI agent is dramatic. Instead of 5-15 tool calls per page (navigate, wait, screenshot, read, extract, handle error), it's **one call**. Instead of 2,000-30,000 tokens, it's **200-500 tokens**. Instead of back-and-forth conversation, it's **fire and forget**.
 
@@ -147,13 +147,13 @@ flowchart TD
     START["Get data from a URL"] --> Q1{"Public page?"}
 
     Q1 -->|"Yes"| Q2{"Static HTML?"}
-    Q1 -->|"No — needs login"| Q3{"Session in browser?"}
+    Q1 -->|"No - needs login"| Q3{"Session in browser?"}
 
     Q2 -->|"Yes / simple"| T1["<b>T1: scrape.py</b><br/><i>HTTP + Cloudflare bypass</i>"]
-    Q2 -->|"No — SPA / JS"| T2["<b>T2: extract.js</b><br/><i>Playwright headless</i>"]
+    Q2 -->|"No - SPA / JS"| T2["<b>T2: extract.js</b><br/><i>Playwright headless</i>"]
 
-    Q3 -->|"Yes — CDP running"| AUTH["<b>Auth: dev-extract.js</b><br/><i>Live browser sessions</i>"]
-    Q3 -->|"No — needs stealth"| T3["<b>T3: SeleniumBase</b><br/><i>UC Mode + profile</i>"]
+    Q3 -->|"Yes - CDP running"| AUTH["<b>Auth: dev-extract.js</b><br/><i>Live browser sessions</i>"]
+    Q3 -->|"No - needs stealth"| T3["<b>T3: SeleniumBase</b><br/><i>UC Mode + profile</i>"]
 
     T1 -->|"blocked / anti-bot"| T2
     T2 -->|"anti-bot"| T3
@@ -176,7 +176,7 @@ ExtractFlow handles anything with a URL. Here's what it looks like across differ
 
 ### E-Commerce: Amazon Product Data
 
-Amazon blocks HTTP scraping with CAPTCHA — T1 fails, T2 handles it.
+Amazon blocks HTTP scraping with CAPTCHA - T1 fails, T2 handles it.
 
 ```bash
 node scripts/extract.js --url "https://www.amazon.co.uk/dp/B0BZHMMVLG" --scroll
@@ -210,16 +210,16 @@ If your session has expired, ExtractFlow detects the login redirect and returns 
 Public listings need stealth (T3). But your own account settings? Auth tier handles it in 5 seconds.
 
 ```bash
-# Your account data (Auth tier — instant)
+# Your account data (Auth tier - instant)
 node scripts/dev-extract.js --connect --url https://www.airbnb.com/account-settings
 
-# Public listing (T3 — stealth needed)
+# Public listing (T3 - stealth needed)
 python templates/scrape_page.py  # Customise for the listing URL
 ```
 
 ### Content & Research: Blogs, News, Documentation
 
-Most content sites are simple — T1 grabs them in 2-5 seconds with no browser at all.
+Most content sites are simple - T1 grabs them in 2-5 seconds with no browser at all.
 
 ```bash
 python scripts/scrape.py --url https://techcrunch.com/some-article
@@ -239,7 +239,7 @@ node scripts/batch-extract.js --urls "https://site1.com,https://site2.com,https:
 node scripts/batch-extract.js --file competitor-urls.txt --concurrency 5 --delay 2000
 ```
 
-Output is JSONL — one JSON object per line, pipe it to `jq` or feed it into your next workflow.
+Output is JSONL - one JSON object per line, pipe it to `jq` or feed it into your next workflow.
 
 ### Local Development: Localhost & file:// URLs
 
@@ -286,13 +286,13 @@ dev-browser install
 ### Your First Extraction
 
 ```bash
-# Simplest possible extraction — T1, pure HTTP, ~2 seconds
+# Simplest possible extraction - T1, pure HTTP, ~2 seconds
 python scripts/scrape.py --url https://example.com
 
-# A JS-heavy page — T2, headless browser, ~10 seconds
+# A JS-heavy page - T2, headless browser, ~10 seconds
 node scripts/extract.js --url https://example.com --scroll
 
-# An authenticated page — Auth tier, your live browser
+# An authenticated page - Auth tier, your live browser
 bash scripts/launch-cdp.sh
 node scripts/dev-extract.js --connect --url https://your-dashboard.com
 ```
@@ -354,9 +354,9 @@ The `fallback` field tells you which tier to try next if this one failed.
 
 | Flag | Description | Default |
 |------|-------------|---------|
-| `--url` | Target URL (required) | — |
-| `--selectors` | JSON CSS selectors `'{"name": ".sel"}'` | — |
-| `--exclude` | Elements to strip `"nav,footer"` | — |
+| `--url` | Target URL (required) | - |
+| `--selectors` | JSON CSS selectors `'{"name": ".sel"}'` | - |
+| `--exclude` | Elements to strip `"nav,footer"` | - |
 | `--format` | Output: `json`, `text`, `markdown` | `json` |
 | `--timeout` | Request timeout seconds | `15` |
 
@@ -364,10 +364,10 @@ The `fallback` field tells you which tier to try next if this one failed.
 
 | Flag | Description | Default |
 |------|-------------|---------|
-| `--url` | Target URL (required) | — |
-| `--selectors` | JSON CSS selectors | — |
-| `--exclude` | Elements to strip | — |
-| `--wait-for` | CSS selector to wait for | — |
+| `--url` | Target URL (required) | - |
+| `--selectors` | JSON CSS selectors | - |
+| `--exclude` | Elements to strip | - |
+| `--wait-for` | CSS selector to wait for | - |
 | `--scroll` | Auto-scroll for lazy content | `false` |
 | `--timeout` | Page timeout seconds | `15` |
 
@@ -375,12 +375,12 @@ The `fallback` field tells you which tier to try next if this one failed.
 
 | Flag | Description | Default |
 |------|-------------|---------|
-| `--urls` | Comma-separated URLs | — |
-| `--file` | File with one URL per line | — |
+| `--urls` | Comma-separated URLs | - |
+| `--file` | File with one URL per line | - |
 | `--concurrency` | Parallel browsers | `3` |
 | `--delay` | Delay between batches (ms) | `1000` |
-| `--selectors` | JSON CSS selectors | — |
-| `--exclude` | Elements to strip | — |
+| `--selectors` | JSON CSS selectors | - |
+| `--exclude` | Elements to strip | - |
 | `--scroll` | Auto-scroll | `false` |
 | `--timeout` | Per-page timeout seconds | `15` |
 
@@ -388,11 +388,11 @@ The `fallback` field tells you which tier to try next if this one failed.
 
 | Flag | Description | Default |
 |------|-------------|---------|
-| `--url` | Target URL (required) | — |
-| `--connect` | CDP URL (or empty for auto) | — |
-| `--selectors` | JSON CSS selectors | — |
-| `--exclude` | Elements to strip | — |
-| `--wait-for` | CSS selector to wait for | — |
+| `--url` | Target URL (required) | - |
+| `--connect` | CDP URL (or empty for auto) | - |
+| `--selectors` | JSON CSS selectors | - |
+| `--exclude` | Elements to strip | - |
+| `--wait-for` | CSS selector to wait for | - |
 | `--scroll` | Auto-scroll | `false` |
 | `--timeout` | Page timeout seconds | `20` |
 | `--read-only` | Prevent form fills/clicks | `true` |
@@ -402,7 +402,7 @@ The `fallback` field tells you which tier to try next if this one failed.
 ## Known Limitations
 
 - **Anti-bot sites** (Amazon, Airbnb public listings, banking) block T1 and sometimes T2. That's what T3 is for.
-- **Auth tier needs CDP** — your browser must be relaunched with `launch-cdp.sh`. Sessions expire independently.
+- **Auth tier needs CDP** - your browser must be relaunched with `launch-cdp.sh`. Sessions expire independently.
 - **50KB output cap** on all scripts to prevent context window overflow in AI agents.
 - **SeleniumBase T3** runs headed by default. Set `SB_HEADLESS=true` for background runs.
 - **Not a crawler.** ExtractFlow extracts data from URLs you give it. It doesn't discover or follow links automatically.
