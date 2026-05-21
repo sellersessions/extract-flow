@@ -2,14 +2,23 @@
 # Launch Comet (or Chrome) with CDP debugging enabled on port 9222.
 # This allows dev-browser to connect to your live browser sessions.
 #
+# PREFERRED: use ./launch-automation-browser.sh instead for extractions.
+# That runs a SEPARATE Chromium on port 9334 with its own profile, sits on
+# Desktop 2, and never steals focus from Danny's live Comet. Only use
+# this script when an extraction genuinely needs Danny's Comet session.
+#
 # Usage:
-#   ./launch-cdp.sh          # Launch Comet (default)
-#   ./launch-cdp.sh chrome   # Launch Chrome instead
-#   ./launch-cdp.sh check    # Check if CDP is already running
+#   ./launch-cdp.sh             # Launch Comet on 9222 (active-browser mode)
+#   ./launch-cdp.sh chrome      # Launch Chrome on 9222 instead
+#   ./launch-cdp.sh check       # Check if CDP is already running
+#   ./launch-cdp.sh automation  # Wrapper → launch-automation-browser.sh
 
 PORT=9222
 
 case "${1:-comet}" in
+  automation)
+    exec "$(dirname "$0")/launch-automation-browser.sh" "${@:2}"
+    ;;
   check)
     if curl -s "http://localhost:$PORT/json/version" > /dev/null 2>&1; then
       echo "CDP is running on port $PORT"

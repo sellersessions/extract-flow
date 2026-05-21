@@ -8,6 +8,26 @@
 - **50KB cap.** Scripts truncate output to prevent context window overflow.
 - **Auth tier = read-only by default.** Never fill forms or click buttons without explicit `--read-only false`.
 - **CDP requires browser relaunch.** Run `launch-cdp.sh` after quitting the browser. Sessions expire independently.
+- **NEVER attach to Comet (port 9222) for authenticated extractions.** Comet is Danny's live working browser on Desktop 1; CDP navigation steals focus and renders his Mac unusable for other work. Use the dedicated automation Chromium on port 9334 instead (see below).
+
+## Authenticated extractions — use the automation browser
+
+For any extraction that needs a logged-in session (claude.ai, Gmail web, WordPress admin, Stripe, etc.):
+
+1. **Ensure the automation browser is running:**
+   ```bash
+   ./scripts/launch-automation-browser.sh check || ./scripts/launch-automation-browser.sh
+   ```
+   Launches Playwright's bundled Chromium on CDP port **9334** with a persistent profile at `~/.extract-flow/automation-profile/`. First launch requires Danny to drag the window to Desktop 2 and right-click dock icon → Options → Assign To → This Desktop.
+
+2. **Log in once per service.** Cookies persist in the profile dir. No re-login between sessions.
+
+3. **Connect extractions to 9334, not 9222:**
+   ```bash
+   node scripts/dev-extract.js --url <URL> --connect http://localhost:9334
+   ```
+
+4. **Comet (9222) is only for extractions that require Danny's personal session AND he has explicitly approved the disruption.** Default to automation. Escalate to Comet only if asked.
 
 ## File Layout
 

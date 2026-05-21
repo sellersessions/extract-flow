@@ -20,6 +20,34 @@
 
 ## Session Log
 
+### 21 May 2026 10:30 BST — Markdown → PDF batch converter added
+
+**What:** New tool at `scripts/md-to-pdf-batch.mjs`. Recursive batch converter for markdown files to professional-styled PDF, used to generate the Hannah / Allison filing-pack companion PDFs for the Form E divorce disclosure workspace.
+
+**Why:** Solicitors and accountants do not use markdown readers. The Form E pack contains several markdown evidence files (strategic narratives, Barclays mortgage warning, Living Conditions summary) that needed PDF siblings without manual export. Established the markdown → PDF route as a generic ExtractFlow capability rather than a one-off form-e script.
+
+**How:**
+- `marked` npm package installed for markdown → HTML conversion (`npm install marked` in extract-flow root)
+- HTML wrapped in print-friendly CSS (A4 / Avenir-family sans-serif / purple H1+H2 / proper table + blockquote + code styling)
+- Playwright chromium with `page.emulateMedia({ media: 'print' })` per memory `feedback_playwright_pdf_use_print_media.md`
+- Recursive folder walk; one PDF per `.md` file alongside the original
+- Idempotent: re-running overwrites existing PDFs
+
+**Usage:**
+
+```
+cd extract-flow
+node scripts/md-to-pdf-batch.mjs "/path/to/root/folder"
+```
+
+**Image-embed caveat:** chromium embeds full-resolution source images in the PDF when markdown image syntax `![alt](path)` is used. 19 iPhone photos in the Living Conditions evidence pack produced a 193 MB PDF on first run. Decision: leave images as separate files in the folder structure, use inline-code paths in the markdown rather than image syntax. Text-only PDF stays under 200 KB; visual evidence remains accessible as native JPGs in the source folders.
+
+**Decisions made:**
+- ExtractFlow now covers markdown → PDF batch as a first-class tool. Documented in this MASTER-LOG entry; README update deferred unless / until a generic toolkit description is needed.
+- Print-media emulation is the standard pattern (per `feedback_playwright_pdf_use_print_media.md`); applied here from the start, no retroactive fix needed.
+
+---
+
 ### 30 Mar 2026 12:45 BST — Repo Creation + README Reframe
 
 **What:** Created standalone ExtractFlow repo, tested CDP on Comet, rewrote README.
