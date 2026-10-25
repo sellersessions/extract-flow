@@ -1,11 +1,10 @@
 node_modules/
 .venv/
-results/*.json
-results/*.jsonl
+results/*
 !results/.gitkeep
 _captures/
+_archive/
 .env
 .DS_Store
 *.pyc
 __pycache__/
-~/.claude/browser-profiles/

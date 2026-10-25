@@ -1,4 +1,9 @@
-# CLAUDE.md — ExtractFlow
+# CLAUDE.md - ExtractFlow
+
+## Routing, read first
+
+Open `ROUTING-AND-INDEX.md` in this folder before anything else. It says which of the two workspaces (`scripts/`, `templates/`) holds the work, which files each task reads, and which to leave closed; each workspace has its own `ROUTING-AND-INDEX.md`.
+Written 25 Oct 2026 by the Jake folder system. It points at files and adds no instructions. The rules below are unchanged.
 
 ## Project Rules
 
@@ -10,7 +15,7 @@
 - **CDP requires browser relaunch.** Run `launch-cdp.sh` after quitting the browser. Sessions expire independently.
 - **NEVER attach to Comet (port 9222) for authenticated extractions.** Comet is Danny's live working browser on Desktop 1; CDP navigation steals focus and renders his Mac unusable for other work. Use the dedicated automation Chromium on port 9334 instead (see below).
 
-## Authenticated extractions — use the automation browser
+## Authenticated extractions - use the automation browser
 
 For any extraction that needs a logged-in session (claude.ai, Gmail web, WordPress admin, Stripe, etc.):
 
@@ -31,11 +36,11 @@ For any extraction that needs a logged-in session (claude.ai, Gmail web, WordPre
 
 ## File Layout
 
-- `scripts/` — The 7 extraction scripts (T1, T2, Auth, Interactive, utilities)
-- `templates/` — SeleniumBase T3 templates (copy, customise, run)
-- `examples/` — Walkthrough docs for common extraction tasks
-- `docs/` — Numbered deep-dive documentation
-- `results/` — Output directory (.gitignored)
+- `scripts/` - The 7 extraction scripts (T1, T2, Auth, Interactive, utilities)
+- `templates/` - SeleniumBase T3 templates (copy, customise, run)
+- `examples/` - Walkthrough docs for common extraction tasks
+- `docs/` - Numbered deep-dive documentation
+- `results/` - Output directory (.gitignored)
 
 ## Dependencies
 

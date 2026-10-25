@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 120" fill="none">
   <defs>
-    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#4A9BD9;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#6C5CE7;stop-opacity:1" />
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2f6dbf;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7a4ab0;stop-opacity:1" />
     </linearGradient>
   </defs>
-  <text x="0" y="78" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif" font-size="72" font-weight="700" fill="url(#blueGrad)">Extract</text>
-  <text x="375" y="78" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif" font-size="72" font-weight="300" fill="#e0e0e0">Flow</text>
-  <text x="0" y="110" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#888888">4 tiers  ·  6 scripts  ·  the lightest tool that works</text>
+  <text x="0" y="78" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif" font-size="72" font-weight="700" fill="url(#brandGrad)">Extract</text>
+  <text x="265" y="78" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif" font-size="72" font-weight="300" fill="#eceae4">Flow</text>
+  <text x="0" y="110" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#74726a">4 tiers  ·  11 scripts  ·  4 templates  ·  the lightest tool that works</text>
 </svg>
