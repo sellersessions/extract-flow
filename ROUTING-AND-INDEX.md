@@ -23,7 +23,7 @@ Every row: `CLAUDE.md` holds the operating rules (start at tier 1, logged-in wor
 | `examples/` | Reference | 3 | 4,029 | a worked walkthrough: Amazon product page, logged-in page, batch |
 | `assets/` | Reference | 3 | 2,576 | README logos |
 | `results/` | Local only | 166 | 1,094,347 | extraction output; ignored by git except `.gitkeep`, never pushed |
-| `_captures/` | Local only | 2 | 351,932 | browser captures, ignored by git |
+| `_captures/` | Local only | 9 | 1,086,494 | browser captures, ignored by git |
 | `_archive/` | Local only | 7 | 33,644 | retired files, ignored by git; never pushed |
 | `node_modules/` | Local only | not counted | not counted | never; reinstall with `npm install` |
 
